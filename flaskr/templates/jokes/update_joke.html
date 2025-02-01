@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit Joke "{{ joke['title'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="title">Title</label>
+    <input name="title" id="title" value="{{ joke['title'] }}" disabled>
+    <label for="body">Body</label>
+    <textarea name="body" id="body">{{ request.form['body'] or joke['body'] }}</textarea>
+    <input type="submit" value="Save">
+  </form>
+  {% if g.user['id'] == joke['author_id'] %}
+    <hr>
+    <form action="{{ url_for('jokes.delete_joke', joke_id=joke['id']) }}" method="post">
+      <input class="danger" type="submit" value="Delete Joke" onclick="return confirm('Are you sure you want to delete this joke?');">
+    </form>
+  {% endif %}
+{% endblock %}

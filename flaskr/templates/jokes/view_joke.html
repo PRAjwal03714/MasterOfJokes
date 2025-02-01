@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{{ joke['title'] }}</h1>
+  <p>by {{ joke['author'] }} | Created on {{ joke['created'].strftime('%Y-%m-%d') }}</p>
+  <p>Average Rating: {{ joke['avg_rating']|round(2) }}</p>
+{% endblock %}
+
+{% block content %}
+  <article>
+    <p>{{ joke['body'] }}</p>
+  </article>
+
+  {% if g.user['id'] == joke['author_id'] %}
+    <a href="{{ url_for('jokes.update_joke', joke_id=joke['id']) }}" class="button">Edit</a>
+    <form action="{{ url_for('jokes.delete_joke', joke_id=joke['id']) }}" method="post" style="display:inline;">
+      <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this joke?');">
+    </form>
+  {% else %}
+    <form method="post">
+      <label for="rating">Rate this joke:</label>
+      <select name="rating" id="rating" required>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <input type="submit" value="Submit Rating">
+    </form>
+  {% endif %}
+
+  <a href="{{ url_for('jokes.my_jokes') }}" class="button">Back to My Jokes</a>
+  <a href="{{ url_for('jokes.take_joke') }}" class="button {% if g.user['joke_balance'] == 0 %}inactive{% endif %}">Take a Joke</a>
+{% endblock %}

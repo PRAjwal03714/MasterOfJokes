@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>My Jokes</h1>
+  <div>
+    <p>Joke Balance: {{ g.user['joke_balance'] }}</p>
+    <a class="action" href="{{ url_for('jokes.leave_a_joke') }}">Leave a Joke</a>
+    {% if g.user['joke_balance'] > 0 %}
+      <a class="action" href="{{ url_for('jokes.take_joke') }}">Take a Joke</a>
+    {% else %}
+      <span class="inactive-button">Take a Joke (balance required)</span>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block content %}
+  {% if jokes %}
+    {% for joke in jokes %}
+      <article class="joke">
+        <header>
+          <div>
+            <h2><a href="{{ url_for('jokes.view_joke', joke_id=joke['id']) }}">{{ joke['title'] }}</a></h2>
+            <div class="about">Average Rating: {{ joke['avg_rating']|round(2) }}</div>
+          </div>
+          {% if g.user['id'] == joke['author_id'] %}
+            <a class="action" href="{{ url_for('jokes.update_joke', joke_id=joke['id']) }}">Edit</a>
+          {% endif %}
+        </header>
+      </article>
+      {% if not loop.last %}
+        <hr>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p>You haven’t added any jokes yet. <a href="{{ url_for('jokes.leave_a_joke') }}">Leave your first joke!</a></p>
+  {% endif %}
+{% endblock %}
