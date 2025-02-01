@@ -10,5 +10,8 @@ Master of Jokes (MoJ) is a Flask-based web application that operates on the prin
 - **My Jokes:** View and edit submitted jokes.  
 - **Take a Joke:** Browse and retrieve jokes authored by others.  
 - **Joke Ratings:** Rate jokes (if not the author).  
-- **Docker Support:** Deploy the application using Docker.  
+- **Docker Support:** Deploy the application using Docker.
+
+  ![image](https://github.com/user-attachments/assets/917b24c9-c23f-44a2-9527-18b73a19a830)
+
 
